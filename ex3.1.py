@@ -26,16 +26,21 @@ def is_balanced(expr):
     for token in tokenize(expr):
         if token in ['(', '[', '{']:
             s.push(token)
+
         elif token in [')', ']', '}']:
             if s.is_empty():
                 return False
+            
             p = s.pop()
             if p == '(' and token != ')':
                 return False
+            
             elif p == '[' and token != ']':
                 return False
+            
             elif p == '{' and token != '}':
                 return False
+            
     if not s.is_empty():
         return False
     return True
@@ -43,6 +48,7 @@ def is_balanced(expr):
 def evaluate(expr):
     if is_balanced(expr):
         s = Stack()
+
         for token in tokenize(expr):
             if token == '(':
                 s.push(token)
@@ -51,14 +57,15 @@ def evaluate(expr):
                 a = s.pop()
                 op = s.pop()
                 s.pop()
-                if op == '+':
-                    s.push(a + b)
-                elif op == '-':
-                    s.push(a - b)
-                elif op == '*':
+
+                if op == '*':
                     s.push(a * b)
                 elif op == '/':
                     s.push(a / b)
+                elif op == '+':
+                    s.push(a + b)
+                elif op == '-':
+                    s.push(a - b)
             
             if token in ['+', '-', '*', '/']:
                 s.push(token)
@@ -70,10 +77,11 @@ def evaluate(expr):
             b = s.pop()
             a = s.pop()
             op = s.pop()
+
             if op == '*':
                 s.push(a * b)
             elif op == '/':
-                s.push(a // b)
+                s.push(a / b)
             elif op == '+':
                 s.push(a + b)
             elif op == '-':
