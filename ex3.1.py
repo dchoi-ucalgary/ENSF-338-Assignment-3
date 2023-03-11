@@ -41,30 +41,46 @@ def is_balanced(expr):
     return True
 
 def evaluate(expr):
-    s = Stack()
-    for token in tokenize(expr):
-        if token.isdigit():
-            s.push(int(token))
-        elif token in ['+', '-', '*', '/']:
-            if s.is_empty():
-                raise ValueError('Invalid expression')
+    if is_balanced(expr):
+        s = Stack()
+        for token in tokenize(expr):
+            if token == '(':
+                s.push(token)
+            if token == ')':
+                b = s.pop()
+                a = s.pop()
+                op = s.pop()
+                s.pop()
+                if op == '+':
+                    s.push(a + b)
+                elif op == '-':
+                    s.push(a - b)
+                elif op == '*':
+                    s.push(a * b)
+                elif op == '/':
+                    s.push(a / b)
+            
+            if token in ['+', '-', '*', '/']:
+                s.push(token)
+            if token in ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']:
+                s.push(int(token))
+
+        while (len(s.items) > 3):
+            s.pop()
             b = s.pop()
-            if s.is_empty():
-                raise ValueError('Invalid expression')
             a = s.pop()
-            if token == '+':
-                s.push(a + b)
-            elif token == '-':
-                s.push(a - b)
-            elif token == '*':
+            op = s.pop()
+            if op == '*':
                 s.push(a * b)
-            elif token == '/':
-                s.push(a / b)
-        else:
-            raise ValueError('Invalid expression')
-    if s.is_empty():
-        raise ValueError('Invalid expression')
-    return s.pop()
+            elif op == '/':
+                s.push(a // b)
+            elif op == '+':
+                s.push(a + b)
+            elif op == '-':
+                s.push(a - b)
+
+        return s.pop()
+
 
 if __name__ == '__main__':
     expr = sys.argv[1]
