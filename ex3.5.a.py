@@ -9,7 +9,7 @@ def linear_search(arr, target):
     for i in range(len(arr)):
         if arr[i] == target:
             return i
-    return -1
+    return 0
 
 # Efficient implementation
 def binary_search(arr, target):
@@ -22,7 +22,7 @@ def binary_search(arr, target):
             left = mid + 1
         else:
             right = mid - 1
-    return -1
+    return 0
 
 # Generate large input
 arr = list(range(1000000))
